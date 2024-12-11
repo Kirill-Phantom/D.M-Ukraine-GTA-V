@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анкета на модератора</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Анкета на посаду модератора</h1>
+        <form id="moderatorForm" onsubmit="submitForm(event)">
+            <fieldset>
+                <legend>Контактна інформація</legend>
+                <label>
+                    <img src="icons/email.png" alt="Email Icon"> Ваша електронна адреса:
+                    <input type="email" name="email" required>
+                </label>
+                <label>
+                    <img src="icons/user.png" alt="User Icon"> Прізвище, ім’я, по батькові:
+                    <input type="text" name="fullName" required>
+                </label>
+                <label>
+                    <img src="icons/calendar.png" alt="Age Icon"> Ваш вік:
+                    <input type="number" name="age" min="16" placeholder="Наприклад: 16" required>
+                </label>
+                <label>
+                    <img src="icons/telegram.png" alt="Telegram Icon"> Ваш Telegram:
+                    <input type="text" name="telegram" required>
+                </label>
+                <label>
+                    <img src="icons/discord.png" alt="Discord Icon"> Ваш Discord:
+                    <input type="text" name="discord" required>
+                </label>
+            </fieldset>
+
+            <fieldset>
+                <legend>Про себе</legend>
+                <label>
+                    <img src="icons/scale.png" alt="Scale Icon"> Як би ви оцінили свою адекватність? (0-10)
+                    <input type="number" name="adequacy" min="0" max="10" required>
+                </label>
+                <label>
+                    <img src="icons/stress.png" alt="Stress Icon"> Як би ви оцінили свою стресостійкість? (0-10)
+                    <input type="number" name="stressResistance" min="0" max="10" required>
+                </label>
+                <label>
+                    <img src="icons/learning.png" alt="Learning Icon"> Наскільки швидко засвоюєте новий матеріал? (0-10)
+                    <input type="number" name="learningSpeed" min="0" max="10" required>
+                </label>
+                <label>
+                    <img src="icons/positive-negative.png" alt="Traits Icon"> Назвіть три позитивні та три негативні риси:
+                    <textarea name="positiveNegativeTraits" required></textarea>
+                </label>
+                <label>
+                    <input type="checkbox" name="ban" value="Так"> Чи були у вас блокування на Discord-серверах?
+                    <textarea name="banReason" placeholder="Якщо так, напишіть причину"></textarea>
+                </label>
+                <label>
+                    <input type="checkbox" name="previousModeratorExperience" value="Так"> Чи займали ви посаду модератора раніше?
+                </label>
+            </fieldset>
+
+            <fieldset>
+                <legend>Додаткова інформація</legend>
+                <label>
+                    <input type="checkbox" name="teamPlayer" value="Так"> Ви командний гравець?
+                </label>
+                <label>
+                    <input type="checkbox" name="microphone" value="Так"> У вас є мікрофон?
+                </label>
+                <label>
+                    Скільки годин на день готові приділяти модерації?
+                    <input type="number" name="hoursPerDay" min="1" required>
+                </label>
+                <label>
+                    <input type="checkbox" name="blacklistConsent" value="Так"> Готові отримати ЧС у разі невдачі?
+                </label>
+            </fieldset>
+
+            <button type="submit">Надіслати</button>
+            <button type="button" onclick="clearForm()">Очистити</button>
+        </form>
+    </div>
+
+    <script>
+        async function submitForm(event) {
+            event.preventDefault();
+            const form = document.getElementById("moderatorForm");
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch("https://script.google.com/macros/s/AKfycbydKJltYSoWmKsHlo6vWST-2El5u7kNy9wl0wtrQ7_jgGfNhrD0iNhq8_6aHmo3mh12Vg/exec", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data),
+                });
+
+                if (response.ok) {
+                    alert("Дані успішно надіслані!");
+                    form.reset();
+                } else {
+                    alert("Помилка при надсиланні даних.");
+                }
+            } catch (error) {
+                alert("Помилка підключення до сервера.");
+                console.error(error);
+            }
+        }
+
+        function clearForm() {
+            document.getElementById("moderatorForm").reset();
+        }
+    </script>
+</body>
+</html>
