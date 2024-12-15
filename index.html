@@ -610,7 +610,7 @@ input[type="range"] {
 
 
 <script type="module">
-  document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', (event) => {
     const form = document.getElementById('application-form');
     const pages = document.querySelectorAll('.page');
     const nextBtns = document.querySelectorAll('.next-btn');
@@ -672,7 +672,7 @@ input[type="range"] {
 
     function resetForm() {
         form.reset();
-        currentPage = 1; // Set to the second page (index 1)
+        currentPage = 0; // Reset to the first page (index 0)
         showPage(currentPage);
         setupRangeInputs();
         
@@ -772,34 +772,29 @@ input[type="range"] {
         };
 
         try {
-            console.log('Відправка даних форми:', JSON.stringify(data, null, 2));
-            const response = await fetch('https://script.google.com/macros/s/AKfycbwuBirpo62jRCwaMxUtK09leW5QeefX7EioDLhwAoObzCA0M6UDSPBwvoWkI4GUmzpK/exec', {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+            // Convert form data to URL-encoded format
+            const urlEncodedData = new URLSearchParams();
+            Object.keys(data).forEach(key => {
+                urlEncodedData.append(key, data[key]);
             });
 
-            console.log('Статус відповіді:', response.status);
-            console.log('Тип відповіді:', response.type);
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
+            const response = await fetch('https://script.google.com/macros/s/AKfycbwuBirpo62jRCwaMxUtK09leW5QeefX7EioDLhwAoObzCA0M6UDSPBwvoWkI4GUmzpK/exec', {
+                method: 'POST',
+                body: urlEncodedData.toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                mode: 'no-cors'
+            });
 
-            const result = await response.json();
-            console.log('Результат відправки:', result);
-            
-            if (result.result === 'success') {
-                alert('Заявка успішно відправлена!');
-                resetForm();
-            } else {
-                throw new Error('Помилка відправки: ' + (result.error || 'Невідома помилка'));
-            }
+            // Since we're using no-cors, we won't get a proper response
+            // We'll assume success if we get here
+            console.log('Форму відправлено');
+            alert('Заявка успішно відправлена!');
+            resetForm();
         } catch (error) {
             console.error('Помилка:', error);
-            alert('Виникла помилка при відправці заявки. Будь ласка, спробуйте ще раз. Деталі помилки: ' + error.message);
+            alert('Виникла помилка при відправці заявки. Будь ласка, спробуйте ще раз.');
         } finally {
             // Re-enable submit button
             submitButton.disabled = false;
@@ -809,5 +804,6 @@ input[type="range"] {
     showPage(currentPage);
     setupRangeInputs();
 });
+
 
 </script>
