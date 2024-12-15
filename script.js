@@ -51,10 +51,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const rangeInputs = document.querySelectorAll('input[type="range"]');
         rangeInputs.forEach(input => {
             const valueDisplay = input.nextElementSibling;
+            valueDisplay.textContent = input.value;
             input.addEventListener('input', () => {
                 valueDisplay.textContent = input.value;
             });
         });
+    }
+
+    function resetForm() {
+        form.reset();
+        currentPage = 1; // Set to the second page (index 1)
+        showPage(currentPage);
+        setupRangeInputs();
+        
+        // Hide the conditional text areas
+        document.getElementById('banReason').style.display = 'none';
+        document.querySelector('.ban-question').classList.remove('expanded');
+        document.getElementById('experienceReason').style.display = 'none';
+        document.querySelector('.experience-question').classList.remove('expanded');
     }
 
     nextBtns.forEach(btn => {
@@ -78,10 +92,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     clearBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             if (confirm('Ви впевнені, що хочете очистити всю форму?')) {
-                form.reset();
-                currentPage = 0;
-                showPage(currentPage);
-                setupRangeInputs();
+                resetForm();
             }
         });
     });
@@ -121,9 +132,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // Створюємо об'єкт з даними форми
+        // Disable submit button to prevent double submission
+        const submitButton = form.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        
+        // Create form data object
         const formData = new FormData(form);
         const data = {
+            Timestamp: new Date().toLocaleString('uk-UA'),
             Email: formData.get('email'),
             ПІБ: formData.get('fullName'),
             Вік: formData.get('age'),
@@ -144,6 +160,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         };
 
         try {
+            console.log('Відправка даних форми:', JSON.stringify(data, null, 2));
             const response = await fetch('https://script.google.com/macros/s/AKfycbwuBirpo62jRCwaMxUtK09leW5QeefX7EioDLhwAoObzCA0M6UDSPBwvoWkI4GUmzpK/exec', {
                 method: 'POST',
                 body: JSON.stringify(data),
@@ -152,24 +169,28 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 }
             });
 
+            console.log('Статус відповіді:', response.status);
+            console.log('Тип відповіді:', response.type);
+            
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             const result = await response.json();
+            console.log('Результат відправки:', result);
             
             if (result.result === 'success') {
                 alert('Заявка успішно відправлена!');
-                form.reset();
-                currentPage = 0;
-                showPage(currentPage);
-                setupRangeInputs();
+                resetForm();
             } else {
-                throw new Error('Submission failed');
+                throw new Error('Помилка відправки: ' + (result.error || 'Невідома помилка'));
             }
         } catch (error) {
-            console.error('Error:', error);
-            alert('Виникла помилка при відправці заявки. Будь ласка, спробуйте ще раз.');
+            console.error('Помилка:', error);
+            alert('Виникла помилка при відправці заявки. Будь ласка, спробуйте ще раз. Деталі помилки: ' + error.message);
+        } finally {
+            // Re-enable submit button
+            submitButton.disabled = false;
         }
     });
 
