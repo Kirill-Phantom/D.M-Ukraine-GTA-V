@@ -8,7 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* Основные стили */
     body {
       font-family: 'Comfortaa', sans-serif;
       margin: 0;
@@ -17,12 +16,12 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      background: #000000 url('https://media.discordapp.net/attachments/1318032081959391232/1318056898997653564/TECHNICAL.png?ex=6760efa5&is=675f9e25&hm=d6f3e5ded68712bf1301f6a427850c49c5aefec8a170ee11c12b6c83de6797af&=&format=webp&quality=lossless&width=1193&height=671') no-repeat center center;
+      background: #000000 url('https://media.discordapp.net/attachments/1318032081959391232/1318056898997653564/TECHNICAL.png?ex=6760efa5&is=675f9e25&hm=d6f3e5ded68712bf1301f6a427850c49c5aefec8a170ee11c12b6c83de6797af&=&format=webp&quality=lossless&width=1193&height=671');
       background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
       background-attachment: fixed;
     }
-
-    /* Контейнер формы */
     .form-container {
       width: 90%;
       max-width: 500px;
@@ -32,22 +31,27 @@
       box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
       color: #fff;
       text-align: center;
+      position: relative;
     }
-
-    /* Баннер */
-    .form-banner {
-      width: 100%;
-      aspect-ratio: 16 / 7;
-      background: url('https://media.discordapp.net/attachments/1318032081959391232/1318064758099808317/TECHNICAL_SUPPORT_GTA_V.png?ex=6760f6f6&is=675fa576&hm=a5a973546d753009de2b29a4f296d2c58001533531ef084dde2a205285328074&=&format=webp&quality=lossless&width=1440&height=662') 
-        no-repeat center center;
-      background-size: contain;
-      border-radius: 10px;
+    .form-container h1 {
       margin-bottom: 20px;
-      filter: drop-shadow(5px 5px 10px #000000);
+      font-size: 24px;
     }
+    .form-container h2 {
+      font-size: 20px;
+    }
+.form-banner {
+  width: 100%; /* Полная ширина блока */
+  aspect-ratio: 16 / 7; /* Соотношение сторон (пример для изображения 1440x662) */
+  background: url('https://media.discordapp.net/attachments/1318032081959391232/1318064758099808317/TECHNICAL_SUPPORT_GTA_V.png?ex=6760f6f6&is=675fa576&hm=a5a973546d753009de2b29a4f296d2c58001533531ef084dde2a205285328074&=&format=webp&quality=lossless&width=1440&height=662') 
+    no-repeat center center;
+  background-size: contain; /* Масштабировать без обрезки */
+  border-radius: 10px; /* Скругление углов */
+  margin-bottom: 20px;
+  filter: drop-shadow(5px 5px 10px #000000);
+}
 
-    /* Стили блоков формы */
-    .block {
+    .form-container .block {
       margin-bottom: 20px;
       text-align: left;
       padding: 10px;
@@ -55,51 +59,54 @@
       border-radius: 5px;
       background-color: rgba(50, 50, 60, 0.8);
     }
-
     .form-container label {
       display: flex;
       align-items: center;
       margin-bottom: 5px;
       font-size: 14px;
     }
-
     .form-container label i {
       margin-right: 10px;
       color: #007BFF;
     }
-
-    input, select, button {
+    .form-container input, .form-container select, .form-container button {
       width: 100%;
       padding: 10px;
-      margin-top: 5px;
       border: none;
       border-radius: 5px;
       font-size: 16px;
+      margin-top: 5px;
       box-sizing: border-box;
     }
-
-    input, select {
+    .form-container input, .form-container select {
       background-color: rgba(21, 21, 29, 0.9);
       color: white;
     }
-
-    button {
+    .form-container button {
       background-color: #007BFF;
       color: white;
       cursor: pointer;
+      margin-top: 10px;
     }
-
-    button:hover {
+    .form-container button:hover {
       background-color: #0056b3;
     }
-
-    /* Радиокнопки */
-    .radio-group {
+    .message {
+      font-size: 14px;
+      margin-top: 10px;
+      display: none;
+    }
+    .message.success {
+      color: #28a745;
+    }
+    .message.error {
+      color: #dc3545;
+    }
+    .form-container .radio-group {
       display: flex;
       flex-direction: column;
     }
-
-    .radio-group label {
+    .form-container .radio-group label {
       flex: 1;
       text-align: center;
       background-color: #0F0F16;
@@ -108,37 +115,28 @@
       margin: 5px 0;
       cursor: pointer;
     }
-
-    .radio-group input {
+    .form-container .radio-group input {
       display: none;
     }
-
-    .radio-group input:checked + label {
+    .form-container .radio-group input:checked + label {
       background-color: #007BFF;
       color: white;
     }
-
-    /* Сообщения */
-    .message {
-      font-size: 14px;
-      margin-top: 10px;
-      display: none;
-    }
-    .success { color: #28a745; }
-    .error { color: #dc3545; }
-
     @media (min-width: 768px) {
-      .radio-group {
+      .form-container {
+        width: 500px;
+        padding: 30px;
+      }
+      .form-container .radio-group {
         flex-direction: row;
       }
-      .radio-group label {
+      .form-container .radio-group label {
         margin: 0 5px;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Контейнер формы -->
   <div class="form-container">
     <div class="form-banner"></div>
     <h1>Онлайн Зміна GTA V</h1>
@@ -154,36 +152,114 @@
         <div class="radio-group">
           <input type="radio" id="startShift" name="shiftType" value="start" required>
           <label for="startShift">Почав(ла) онлайн зміну</label>
+
           <input type="radio" id="endShift" name="shiftType" value="end" required>
           <label for="endShift">Закінчив(ла) онлайн зміну</label>
         </div>
       </div>
+
       <div class="block">
         <label for="time"><i class="fas fa-clock"></i> Час:</label>
         <input type="time" id="time" name="time" required>
       </div>
+
       <button type="submit">Надіслати</button>
     </form>
     <div id="message" class="message"></div>
   </div>
+
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', (event) => {
     const form = document.getElementById('shiftForm');
     const messageDiv = document.getElementById('message');
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+
       const formData = new FormData(form);
       const nickname = formData.get('nickname');
-      const shiftType = formData.get('shiftType') === 'start' ? 'почав(ла) онлайн зміну' : 'закінчив(ла) онлайн зміну';
+      const startShift = formData.get('shiftType') === 'start';
+      const endShift = formData.get('shiftType') === 'end';
       const time = formData.get('time');
 
-      messageDiv.textContent = `**${nickname}** ${shiftType} о **${time}**`;
-      messageDiv.className = 'message success';
-      messageDiv.style.display = 'block';
-      form.reset();
+      if (!nickname || (!startShift && !endShift) || !time) {
+        messageDiv.textContent = 'Будь ласка, заповніть усі поля!';
+        messageDiv.className = 'message error';
+        messageDiv.style.display = 'block';
+        return;
+      }
+
+      const shiftType = startShift ? 'почав(ла) онлайн зміну' : 'закінчив(ла) онлайн зміну';
+      const googleSheetUrl = 'https://script.google.com/macros/s/AKfycbwdTQQCVyns6ZtwlVIS5VNRubzCrdlRdtKT3MWR32LISjFnoy1BNVX3NwHkCwDxEeERcg/exec';
+      const webhookUrl = 'https://discord.com/api/webhooks/1318021246562336828/z0uBjWE4tYIYDia-uIqtoPhCBh8HCMAjaYMjhWZpHHRyTlefHvTvdELCNNWdiA1MkXML';
+      const secondWebhookUrl = 'https://discord.com/api/webhooks/1318043018283978852/yRKSJ8UIkBgVbGv6ew0N5aRYWwv2T_1gUyulzLo5TifNW93B2Do1FJ0tEXhYxGbGNyWo';
+
+      const data = {
+        nickname,
+        shiftType,
+        time,
+      };
+
+      try {
+        const urlEncodedData = new URLSearchParams(data).toString();
+        const googleSheetResponse = await fetch(googleSheetUrl, {
+          method: 'POST',
+          body: urlEncodedData,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          }
+        });
+
+        if (!googleSheetResponse.ok) {
+          throw new Error('Не вдалося надіслати дані в Google Sheets');
+        }
+
+        const discordResponse = await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: '[INFO BOT] GTA V',
+            avatar_url: 'https://cdn.discordapp.com/attachments/1318032081959391232/1318032170081587221/ugta_small.png?ex=6760d89d&is=675f871d&hm=84b9e71ef181e7822617d7dd83251f9f57e0ee1f138950edb72b67c1dc6df3a1&',
+            content: `**${nickname}** ${shiftType} онлайн зміну о **${time}**`,
+          }),
+        });
+
+        if (!discordResponse.ok) {
+          throw new Error('Не вдалося надіслати повідомлення в Discord GTA V');
+        }
+
+        const secondDiscordResponse = await fetch(secondWebhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: '[INFO BOT] GTA V',
+            avatar_url: 'https://cdn.discordapp.com/attachments/1318032081959391232/1318032170081587221/ugta_small.png?ex=6760d89d&is=675f871d&hm=84b9e71ef181e7822617d7dd83251f9f57e0ee1f138950edb72b67c1dc6df3a1&',
+            content: `**${nickname}** ${shiftType} онлайн зміну о **${time}**`,
+          }),
+        });
+
+        if (!secondDiscordResponse.ok) {
+          throw new Error('Не вдалося надіслати повідомлення в Discord посібник');
+        }
+
+        messageDiv.textContent = 'Дані успішно надіслані!';
+        messageDiv.className = 'message success';
+        messageDiv.style.display = 'block';
+        form.reset();
+        
+        setTimeout(() => {
+          messageDiv.style.display = 'none';
+        }, 5000);
+
+      } catch (error) {
+        console.error('Помилка при відправленні:', error);
+        messageDiv.textContent = `Помилка при відправленні: ${error.message}`;
+        messageDiv.className = 'message error';
+        messageDiv.style.display = 'block';
+      }
     });
   });
 </script>
 </body>
 </html>
+
