@@ -16,7 +16,7 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      background: #000000 url('https://i.imgur.com/JNKW51n.png');
+      background: #000000 url('https://media.discordapp.net/attachments/1318032081959391232/1318056898997653564/TECHNICAL.png?ex=6760efa5&is=675f9e25&hm=d6f3e5ded68712bf1301f6a427850c49c5aefec8a170ee11c12b6c83de6797af&=&format=webp&quality=lossless&width=1193&height=671');
       background-size: cover;
       background-position: center center;
       background-repeat: no-repeat;
@@ -40,15 +40,17 @@
     .form-container h2 {
       font-size: 20px;
     }
-    .form-banner {
-      width: 100%;
-      height: 150px;
-      background: url('https://i.imgur.com/qt6wcPg.jpeg') no-repeat center;
-      background-size: cover;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      filter: drop-shadow(5px 5px 10px #000000);
-    }
+.form-banner {
+  width: 100%; /* Полная ширина блока */
+  aspect-ratio: 16 / 7; /* Соотношение сторон (пример для изображения 1440x662) */
+  background: url('https://media.discordapp.net/attachments/1318032081959391232/1318064758099808317/TECHNICAL_SUPPORT_GTA_V.png?ex=6760f6f6&is=675fa576&hm=a5a973546d753009de2b29a4f296d2c58001533531ef084dde2a205285328074&=&format=webp&quality=lossless&width=1440&height=662') 
+    no-repeat center center;
+  background-size: contain; /* Масштабировать без обрезки */
+  border-radius: 10px; /* Скругление углов */
+  margin-bottom: 20px;
+  filter: drop-shadow(5px 5px 10px #000000);
+}
+
     .form-container .block {
       margin-bottom: 20px;
       text-align: left;
@@ -139,7 +141,7 @@
     <div class="form-banner"></div>
     <h1>Онлайн Зміна GTA V</h1>
     <h2><span style="color: #9A9893;">* * *</span></h2>
-    <p>Тут Ви вказуєте початок зміни та її кінець.</p>
+    <p>Тут Ви вказуєте початок зміни та її кінець</p>
     <form id="shiftForm">
       <div class="block">
         <label for="nickname"><i class="fas fa-user"></i> Nick Name:</label>
@@ -190,6 +192,7 @@
       const shiftType = startShift ? 'почав(ла) онлайн зміну' : 'закінчив(ла) онлайн зміну';
       const googleSheetUrl = 'https://script.google.com/macros/s/AKfycbwdTQQCVyns6ZtwlVIS5VNRubzCrdlRdtKT3MWR32LISjFnoy1BNVX3NwHkCwDxEeERcg/exec';
       const webhookUrl = 'https://discord.com/api/webhooks/1318021246562336828/z0uBjWE4tYIYDia-uIqtoPhCBh8HCMAjaYMjhWZpHHRyTlefHvTvdELCNNWdiA1MkXML';
+      const secondWebhookUrl = 'https://discord.com/api/webhooks/1318043018283978852/yRKSJ8UIkBgVbGv6ew0N5aRYWwv2T_1gUyulzLo5TifNW93B2Do1FJ0tEXhYxGbGNyWo';
 
       const data = {
         nickname,
@@ -215,14 +218,28 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            username: 'UKRAINE GTA #04',
-            avatar_url: 'https://i.imgur.com/tfPENbR.png',
-            content: `**${nickname}** ${shiftType} онлайн зміну о ${time}`,
+            username: '[INFO BOT] GTA V',
+            avatar_url: 'https://cdn.discordapp.com/attachments/1318032081959391232/1318032170081587221/ugta_small.png?ex=6760d89d&is=675f871d&hm=84b9e71ef181e7822617d7dd83251f9f57e0ee1f138950edb72b67c1dc6df3a1&',
+            content: `**${nickname}** ${shiftType} онлайн зміну о **${time}**`,
           }),
         });
 
         if (!discordResponse.ok) {
-          throw new Error('Не вдалося надіслати повідомлення в Discord');
+          throw new Error('Не вдалося надіслати повідомлення в Discord GTA V');
+        }
+
+        const secondDiscordResponse = await fetch(secondWebhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: '[INFO BOT] GTA V',
+            avatar_url: 'https://cdn.discordapp.com/attachments/1318032081959391232/1318032170081587221/ugta_small.png?ex=6760d89d&is=675f871d&hm=84b9e71ef181e7822617d7dd83251f9f57e0ee1f138950edb72b67c1dc6df3a1&',
+            content: `**${nickname}** ${shiftType} онлайн зміну о **${time}**`,
+          }),
+        });
+
+        if (!secondDiscordResponse.ok) {
+          throw new Error('Не вдалося надіслати повідомлення в Discord посібник');
         }
 
         messageDiv.textContent = 'Дані успішно надіслані!';
@@ -245,3 +262,4 @@
 </script>
 </body>
 </html>
+
